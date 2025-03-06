@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { useState } from 'react';
-import Card from '../components/Card';
-import CreateOrderChild from '../components/CreateOrderChild';
+import Card from '../components/Indicators';
+import CreateOrderChild from '../components/CreateOrderModal';
 
 function LiveOrders() {
   const [showModal, setShowModal] = useState(false);
