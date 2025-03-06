@@ -7,6 +7,7 @@ import LiveOrders from './pages/LiveOrders';
 import PastOrders from './pages/PastOrders';
 import PrivateRoutes from './components/PrivateRoutes';
 import { getItemsFromLocalStorage } from './utility/utils';
+import Teams from './pages/Teams';
 
 function App() {
   const { role, location, team } = getItemsFromLocalStorage();
@@ -22,6 +23,7 @@ function App() {
               <Route index element={<LiveOrders />} />
               <Route path="live-orders" element={<LiveOrders />} />
               <Route path="past-orders" element={<PastOrders />} />
+              <Route path="Teams" element={<Teams />} />
             </Route>
           </Route>
         )}

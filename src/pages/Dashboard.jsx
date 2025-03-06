@@ -1,7 +1,7 @@
 
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme, ConfigProvider } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
 
@@ -27,12 +27,17 @@ const Dashboard = () => {
     {
       key: 'live-orders',
       icon: <UploadOutlined />,
-      label:"live orders",
+      label: <Link to='./live-orders'>Live orders</Link>,
     },
     {
       key: 'past-orders',
       icon: <UserOutlined />,
-      label: "Past Orders",
+      label:  <Link to='./past-orders'>Past Orders</Link>
+    },
+    {
+      key: 'teams',
+      icon: <UserOutlined />,
+      label: <Link to='./teams'>Teams</Link>,
     },
   ];
 
@@ -57,7 +62,8 @@ const Dashboard = () => {
               <Menu
                 theme="dark"
                 mode="inline"
-                selectedKeys={[selectedKey]}
+                // selectedKeys={[selectedKey]}
+
                 items={menuItems}
               />
             </div>
