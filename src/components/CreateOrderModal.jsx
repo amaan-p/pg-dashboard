@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import CreateOrder from '../pages/CreateOrder';
+import CreateOrder from '../components/CreateOrder';
 
 function CreateOrderChild({ onClose }) {
   return (

@@ -1,16 +1,20 @@
-
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme, ConfigProvider } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAuth } from '../context/AuthContext'; // Adjust path as needed
 
 const { Header, Content, Sider } = Layout;
 
-const Dashboard = () => {
-  const navigate = useNavigate();
-  
+const Dashboard = (props) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { logout } = useAuth();
+  const { role, team, location: userLocation, username } = props;
 
   const customTheme = {
     token: {
@@ -18,21 +22,25 @@ const Dashboard = () => {
     },
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    navigate('/login');
+  const getSelectedKey = () => {
+    const path = location.pathname;
+    if (path.includes('live-orders')) return 'live-orders';
+    if (path.includes('past-orders')) return 'past-orders';
+    return '';
   };
 
   const menuItems = [
     {
       key: 'live-orders',
       icon: <UploadOutlined />,
-      label:"live orders",
+      label: "Live Orders",
+      onClick: () => navigate(`/dashboard/live-orders`)
     },
     {
       key: 'past-orders',
       icon: <UserOutlined />,
       label: "Past Orders",
+      onClick: () => navigate(`/dashboard/past-orders`)
     },
   ];
 
@@ -57,8 +65,8 @@ const Dashboard = () => {
               <Menu
                 theme="dark"
                 mode="inline"
-                selectedKeys={[selectedKey]}
                 items={menuItems}
+                selectedKeys={[getSelectedKey()]}
               />
             </div>
           </Sider>
@@ -78,7 +86,7 @@ const Dashboard = () => {
                 <span className="text-[#F5D6B9] text-lg sm:text-2xl font-bold ml-2">Dispatcher,</span>
               </div>
               <button
-                onClick={handleLogout}
+                onClick={logout}
                 className="bg-red-300 text-white font-semibold h-10 w-30 text-center flex justify-center items-center cursor-pointer rounded"
               >
                 Logout
@@ -90,7 +98,6 @@ const Dashboard = () => {
                 height: 'calc(100vh - 112px)',
                 overflowY: 'auto',
                 scrollbarWidth: 'thin',
-                // scrollbarColor: '#FF6F00 #f0f0f0'
               }}
             >
               <div
