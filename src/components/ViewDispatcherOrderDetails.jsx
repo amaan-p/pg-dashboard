@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import CreateOrder from '../pages/CreateOrder';
 
-function CreateOrderChild({ onClose }) {
+
+
+function viewDispatcherOrderDetails({ onClose }) {
   return (
     <Dialog open={true} onClose={onClose} className="relative z-10">
       <DialogBackdrop
@@ -24,10 +25,10 @@ function CreateOrderChild({ onClose }) {
                 </div>
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                   <DialogTitle as="h3" className="text-base font-semibold text-red-600">
-                    Create Order
+                   View Order Details
                   </DialogTitle>
                   <div className="mt-2">
-                    <CreateOrder />
+                 <p>your order dewtail will be shown here</p>
                   </div>
                 </div>
               </div>
@@ -48,4 +49,4 @@ function CreateOrderChild({ onClose }) {
   );
 }
 
-export default CreateOrderChild;
+export default viewDispatcherOrderDetails;

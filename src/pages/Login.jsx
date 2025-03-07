@@ -1,46 +1,26 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from 'axios'
-import { saveToLocalStorage } from "../utility/utils";
+import { useAuth } from "../context/AuthContext"; // Adjust path as needed
 
 function Login() {
-  const [username, setUserName] = useState('')
-  const [password, setPassWord] = useState('')
-  const [error, setError] = useState('')
-  const navigate = useNavigate()
+  const [username, setUserName] = useState('');
+  const [password, setPassWord] = useState('');
+  const [error, setError] = useState('');
+  const { login } = useAuth();
 
-  const handlelogin = async (e) => {
-    e.preventDefault()
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post('https://pg-dash-backend.vercel.app/api/login', {
-        username,
-        password
-      })
-
-      if (response.status === 200) {
-        const { role, location, team, token } = response.data
+      await login({ username, password });
+      // Navigation is now handled in the AuthContext
       
-        saveToLocalStorage('username', username);
-        saveToLocalStorage('token', token);
-        saveToLocalStorage('role', role);
-        
-        if (role !== 'dispatcher') {
-          saveToLocalStorage('location', location);
-          saveToLocalStorage('team', team);
-          
-          navigate(`/UserDashboard/${role}/${team}/${location}/live-orders`);
-        } else {
-          navigate('/dashboard');
-        }
-
-        setUserName("")
-        setPassWord('')
-      }
+      // Clear form fields
+      setUserName("");
+      setPassWord('');
     } catch (err) {
-      setError('Invalid username or password')
-      console.log("Login error", err)
+      setError('Invalid username or password');
+      console.log("Login error", err);
     }
-  }
+  };
 
   return (
     <div className='min-h-screen bg-[#E75018] flex items-center justify-center'>
@@ -48,14 +28,14 @@ function Login() {
         <div className="flex items-center justify-center w-full px-4">
           <img src="logo.png" className="h-12" alt="Logo" />
         </div>
-
+        
         {error && (
           <div className="text-red-500 text-center w-full">
             {error}
           </div>
         )}
-
-        <form onSubmit={handlelogin} className='w-full'>
+        
+        <form onSubmit={handleLogin} className='w-full'>
           <div className='flex flex-col gap-5 w-full'>
             <label className='text-black-700 font-bold text-lg'>Username :</label>
             <input
@@ -63,7 +43,7 @@ function Login() {
               placeholder='Enter username'
               value={username}
               onChange={(e) => setUserName(e.target.value)}
-              className='border-2 border-gray-300 p-3 rounded w-full focus:outline-none  hover:outline-2 hover:outline-[#E75018]'
+              className='border-2 border-gray-300 p-3 rounded w-full focus:outline-none hover:outline-2 hover:outline-[#E75018]'
               required
             />
           </div>
@@ -74,7 +54,7 @@ function Login() {
               placeholder='Enter password'
               value={password}
               onChange={(e) => setPassWord(e.target.value)}
-              className='border-2 border-gray-300 p-3 rounded w-full focus:outline-none  hover:outline-2 hover:outline-[#E75018]'
+              className='border-2 border-gray-300 p-3 rounded w-full focus:outline-none hover:outline-2 hover:outline-[#E75018]'
               required
             />
           </div>
@@ -89,7 +69,7 @@ function Login() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login;

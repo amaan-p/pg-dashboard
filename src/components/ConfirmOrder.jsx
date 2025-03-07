@@ -1,26 +1,8 @@
-import React from 'react';
+import React from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
-
-const EditOrderDetailsChild = ({ onClose }) => {
-  const capDetails = [
-    {
-      id: "CAP001",
-      name: "Pressure Valve Cap",
-      material: "Stainless Steel",
-      size: "2 inch",
-      threadType: "NPT"
-    },
-    {
-      id: "CAP002",
-      name: "Hydraulic Reservoir Cap",
-      material: "Aluminum",
-      size: "3 inch",
-      threadType: "BSP"
-    },
-
-  ]
+const ConfirmOrder = ({ onClose }) => {
   return (
     <Dialog open={true} onClose={onClose} className="relative z-10">
       <DialogBackdrop
@@ -41,42 +23,10 @@ const EditOrderDetailsChild = ({ onClose }) => {
                 </div>
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                   <DialogTitle as="h3" className="text-base font-semibold text-red-600">
-                    Edit Order Details
+                    Create Order
                   </DialogTitle>
-                  <div className="mt-4 w-full">
-                    <div>
-                      <h5>Customer name : A</h5>
-                      <h5>Dispatcher name : D</h5>
-                      <h5>Order created: {new Date().toLocaleString()}</h5>
-                    </div>
-                    {
-                      capDetails.map((cap) => (
-                        <div key={cap.id} className="grid grid-cols-3 mt-7 gap-4 mb-4">
-                          <p
-                            key={cap.id + '-name'}
-                            className=" p-2 rounded-lg shadow-sm"
-                          >
-                            19mm gold pump
-                          </p>
-                          <p
-                            key={cap.id + '-material'}
-                            className=" p-2 rounded-lg shadow-sm"
-                          >
-                            100000
-                          </p>
-                          <input
-                          type='number'
-                            placeholder='created'
-                            key={cap.id + '-size'}
-                            className=" p-2 rounded-lg shadow-sm"
-                          />
-
-
-                        </div>
-                      ))
-                    }
-
-
+                  <div className="mt-2">
+                    do you want to complete the order ?
                   </div>
                 </div>
               </div>
@@ -97,4 +47,4 @@ const EditOrderDetailsChild = ({ onClose }) => {
   )
 }
 
-export default EditOrderDetailsChild
+export default ConfirmOrder
