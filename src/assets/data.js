@@ -1,8 +1,8 @@
 export const Orders = [
   {
     "order_number": "30",
-    "dispatcher_name": "abc",
-    "customer_name": "xyz",
+    "dispatcher_name": "Shubham",
+    "customer_name": "Amaan",
     "created_at": new Date().toLocaleDateString(),
     "order_status": "Pending",
     "order_details": {
@@ -67,8 +67,8 @@ export const Orders = [
   },
   {
     "order_number": "31",
-    "dispatcher_name": "def",
-    "customer_name": "uvw",
+    "dispatcher_name": "Govind",
+    "customer_name": "Parth",
     "created_at": new Date().toLocaleDateString(),
     "order_status": "Pending",
     "order_details": {

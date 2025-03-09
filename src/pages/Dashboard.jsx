@@ -193,7 +193,7 @@ const Dashboard = () => {
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center ">
+          <div className="flex flex-col mt-2 sm:flex-row justify-between items-start sm:items-center ">
             <div>
               <span className="text-black text-xl font-bold">{isPastOrdersRoute ? "Past" : "Current"} </span>
               <span className="text-orange-400 text-xl font-bold">Orders</span>

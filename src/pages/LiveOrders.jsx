@@ -6,14 +6,12 @@ import ViewDispatcherOrderDetails from '../components/ViewDispatcherOrderDetails
 export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder }) => {
   const [completeOrder, setCompleteOrder] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [teams, setTeams] = useState([]);
+
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedOrder, setExpandedOrder] = useState(null);
   const [showOrderDetails, setShowOrderDetails] = useState(false)
 
-
-  // Update local orders state when parent component passes new orders
   useEffect(() => {
     if (allorders && allorders.length > 0) {
       setOrders(allorders);
@@ -27,17 +25,7 @@ export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder 
       setLoading(parentLoading);
     }
 
-    const fetchTeams = async () => {
-      try {
-        const response = await axios.get("https://pg-dash-backend.vercel.app/api/allusers");
-        const filteredUsers = response.data.users.filter(user => user.team && user.location);
-        setTeams(filteredUsers);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    // Only fetch orders if none were provided by parent component
+    
     const fetchOrderData = async () => {
       if (!allorders || allorders.length === 0) {
         setLoading(true);
@@ -46,7 +34,7 @@ export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder 
           setOrders(response.data.Orders || []);
         } catch (err) {
           console.log(err);
-          // Fallback to empty array if API fails
+
           setOrders([]);
         } finally {
           setLoading(false);
@@ -54,13 +42,11 @@ export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder 
       }
     };
 
-    fetchTeams();
+  
     fetchOrderData();
   }, [allorders, parentLoading]);
 
-  // Handle click on an order
-
-  // Handle complete order button - use parent handler if provided
+ 
   const handleCompleteOrder = (order) => {
     if (onCompleteOrder) {
       onCompleteOrder(order);
@@ -70,7 +56,6 @@ export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder 
     }
   };
 
-  // Toggle expanded order view
   const toggleOrderExpand = (orderNumber) => {
     if (expandedOrder === orderNumber) {
       setExpandedOrder(null);
@@ -79,13 +64,13 @@ export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder 
     }
   };
 
-  // Function to format date
+
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Function to calculate completion percentage
+
   const calculateCompletion = (order) => {
     const allItems = [
       ...(order.order_details.items || []),
@@ -101,9 +86,11 @@ export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder 
     return Math.round((completedItems / allItems.length) * 100);
   };
 
-  const handleClose = ()=>{
+  const handleClose = () => {
     setShowOrderDetails(false)
   }
+
+
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -264,8 +251,8 @@ export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder 
                 <div className="flex p-4 space-x-2 justify-between">
                   <button
                     onClick={() => {
-
-                      setShowOrderDetails(true)
+                      setSelectedOrder(order); // Add this line
+                      setShowOrderDetails(true);
                     }}
                     className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow transition-all duration-200"
                   >
@@ -297,13 +284,12 @@ export const LiveOrders = ({ allorders, loading: parentLoading, onCompleteOrder 
         )}
       </div>
 
-      {/* Only show the local ConfirmOrder if we're not using the parent's onCompleteOrder */}
       {!onCompleteOrder && completeOrder && (
         <ConfirmOrder onClose={() => setCompleteOrder(false)} order={selectedOrder} />
       )}
-      {showOrderDetails && <ViewDispatcherOrderDetails onClose={handleClose} />}
+      {showOrderDetails && <ViewDispatcherOrderDetails orders={selectedOrder} onClose={handleClose} />}
     </div>
   );
 };
 
-export default LiveOrders;
+export default LiveOrders; 
